@@ -30,7 +30,7 @@ function draw(x,y,realy){
   ctx.fillStyle='rgb(200,200,200)';
   ctx.clearRect(0,0,mcbwidth,mcbheight);
   ctx.fillRect(xo,yo-2,bw,4);
-  ctx.beginPath(); 
+  ctx.beginPath();
   ctx.arc(x,y,20,0,2*Math.PI);
   ctx.fill();
   ctx.stroke();
