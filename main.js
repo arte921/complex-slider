@@ -6,17 +6,18 @@ canvas.width = mcbwidth;
 canvas.height = mcbheight;
 var ctx = canvas.getContext('2d');
 
-ctx.fillStyle='rgb(100,100,100)';
+
 
 var bw = mcbwidth/5;
 
-ctx.fillRect(mcbwidth/2-bw/2,mcbheight/2+2,bw,4);
+var x = mcbwidth/2-bw/2;
+var y = mcbheight/2;
+
+ctx.fillStyle='rgb(100,100,100)';
+ctx.fillRect(mcbwidth/2-bw/2,mcbheight/2-2,bw,4);
 
 ctx.fillStyle='rgb(200,200,200)';
 ctx.lineWidth=5;
-
-
-
 
 function draw(x,y){
   ctx.beginPath();
@@ -25,4 +26,4 @@ function draw(x,y){
   ctx.stroke();
 }
 
-draw(20,20);
+draw(x,y);
