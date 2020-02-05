@@ -20,6 +20,8 @@ ctx.fillStyle='rgb(200,200,200)';
 ctx.lineWidth=5;
 
 function draw(x,y){
+  ctx.clearRect(0,0,mcbwidth,mcbheight);
+  ctx.fillRect(mcbwidth/2-bw/2,mcbheight/2-2,bw,4);
   ctx.beginPath();
   ctx.arc(x,y,20,0,2*Math.PI);
   ctx.fill();
