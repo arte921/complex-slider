@@ -1,4 +1,4 @@
-cleaconst mcbwidth = document.body.clientWidth;
+const mcbwidth = document.body.clientWidth;
 const mcbheight = document.body.clientHeight;
 
 const canvas = document.getElementById("canvas");
