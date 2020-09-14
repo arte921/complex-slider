@@ -1,68 +1,64 @@
-var mcbwidth = document.body.clientWidth;
-var mcbheight = document.body.clientHeight;
+cleaconst mcbwidth = document.body.clientWidth;
+const mcbheight = document.body.clientHeight;
 
-var canvas = document.getElementById('canvas');
-canvas.width = mcbwidth;
-canvas.height = mcbheight;
-var ctx = canvas.getContext('2d');
-var mousedown=false;
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-var a;
-var b;
+const buttonWidth = mcbwidth / 5;
+const xo = mcbwidth / 2 - buttonWidth / 2;
+const yo = mcbheight / 2;
 
-var bw = mcbwidth/5;
-const xo = mcbwidth/2-bw/2;
-const yo = mcbheight/2;
-//xo+bw/2
-var x = Math.round(xo+Math.random()*bw*0.8+bw*0.1);
-var y = yo;
+const setup = () => {
+    canvas.width = mcbwidth;
+    canvas.height = mcbheight;
+    
+    ctx.fillStyle = "rgb(100, 100, 100)";
+    ctx.fillRect(mcbwidth / 2 - buttonWidth / 2, mcbheight / 2 - 2, buttonWidth, 4);
+    
+    ctx.fillStyle = "rgb(200, 200, 200)";
+    ctx.lineWidth = 5;
+    
+    ctx.font = Math.round(mcbwidth / 20) + "px Times New Roman";
+    
+    let mousedown = false;
 
-ctx.fillStyle='rgb(100,100,100)';
-ctx.fillRect(mcbwidth/2-bw/2,mcbheight/2-2,bw,4);
+    canvas.onmousedown = () => mousedown = true;
 
-ctx.fillStyle='rgb(200,200,200)';
-ctx.lineWidth=5;
+    canvas.onmouseup = () => mousedown = false;
 
-ctx.font = Math.round(mcbwidth/20) + 'px Times New Roman';
+    document.onmousemove = (event) => {
+        if (!mousedown) return
+        const x = event.offsetX;
+        const y = event.offsetY;
+        const snap = x > xo && x < xo + buttonWidth && y < yo + buttonWidth / 10 && y > yo - buttonWidth / 10;
+        draw(x, snap ? yo : y, !snap);
+    };
 
-
-function draw(x,y,realy){
-  ctx.fillStyle='rgb(200,200,200)';
-  ctx.clearRect(0,0,mcbwidth,mcbheight);
-  ctx.fillRect(xo,yo-2,bw,4);
-  ctx.beginPath();
-  ctx.arc(x,y,20,0,2*Math.PI);
-  ctx.fill();
-  ctx.stroke();
-  ctx.fillStyle='rgb(0,0,0)';
-
-  a=x/mcbwidth*500-200;
-  b=-y/mcbheight*500+250;
-  if(realy && b != 0){
-    ctx.fillText(Math.round(a) + ' + ' + Math.round(b) + 'i',0,Math.round(mcbwidth/20));
-  }else{
-    ctx.fillText(Math.round(a) + '%',0,Math.round(mcbwidth/20));
-  }
-
+    draw(Math.round(xo + Math.random() * buttonWidth * 0.8 + buttonWidth * 0.1), yo);
 }
 
-canvas.onmousedown=function(){
-  mousedown=true;
-}
-canvas.onmouseup=function(){
-  mousedown=false;
-}
+const draw = (x, y, realy) => {
+    drawbutton(x, y);
+    drawtext(x, y, realy);
+};
 
-document.onmousemove=function(event){
-  if(mousedown){
-    x=event.offsetX;
-    y=event.offsetY;
-    if(x>xo && x<xo+bw && y<yo+bw/10 && y>yo-bw/10){
-      draw(x,yo,false);
-    }else{
-      draw(x,y,true);
-    }
-  }
-}
+const drawbutton = (x, y) => {
+    ctx.fillStyle = "rgb(200, 200, 200)";
+    ctx.clearRect(0, 0, mcbwidth, mcbheight);
+    ctx.fillRect(xo, yo - 2, buttonWidth, 4);
+    ctx.beginPath();
+    ctx.arc(x, y, 20, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = "rgb(0,0,0)";
+};
 
-draw(x,y);
+const drawtext = (x, y, realy) => {
+    const a = (x / mcbwidth) * 500 - 200;
+    const b = (-y / mcbheight) * 500 + 250;
+
+    const addition = realy && b != 0 ? " + " + Math.round(b) + "i" : "%";
+    ctx.fillText(Math.round(a) + addition, 0, Math.round(mcbwidth / 20));
+};
+
+setup();
